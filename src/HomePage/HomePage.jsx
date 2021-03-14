@@ -38,7 +38,10 @@ function HomePage() {
                             {
                                 user.deleting ? <em> - Deleting...</em>
                                 : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                : <span> - <a onClick={() => handleDeleteUser(user.id)} className="text-primary delete">Delete</a></span>
+                                : <span> - <a onClick={() =>
+                                        window.confirm("Are you sure you wish to delete this item?") &&
+                                        handleDeleteUser(user.id)
+                                    } className="text-primary delete">Delete</a></span>
                             }
                             {
                                 <span> - <a onClick={() => editUser(user)} className="text-primary edit">Edit</a></span>
