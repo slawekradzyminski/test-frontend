@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('Actions', () => {
+context('With backend enabled - login', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080/login')
     cy.get('[name=username]').type('slawenty')

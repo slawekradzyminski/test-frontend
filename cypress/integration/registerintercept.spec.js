@@ -3,7 +3,7 @@
 import { loginPage } from "../pages/loginpage"
 import { registerPage } from "../pages/registerpage"
 
-context('Actions', () => {
+context('With mocks', () => {
   beforeEach(() => {
     cy.visit('http://localhost:8080')
   })
