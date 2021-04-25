@@ -17,7 +17,7 @@ function AddUserComponent() {
     const saveUser = (e) => {
         e.preventDefault();
         setSubmitted(true)
-        let user = {
+        const user = {
             id, firstName, lastName, username, password
         };
         if (user.firstName && user.lastName && user.username && user.password) {

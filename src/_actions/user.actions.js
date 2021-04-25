@@ -142,19 +142,18 @@ function update(user) {
     function failure(error) { return { type: userConstants.UPDATE_USER_FAILURE, error } }
 }
 
-// prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+function _delete(username) {
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(username));
 
-        userService.delete(id)
+        userService.delete(username)
             .then(
-                user => dispatch(success(id)),
-                error => dispatch(failure(id, error.toString()))
+                user => dispatch(success(username)),
+                error => dispatch(failure(username, error.toString()))
             );
     };
 
-    function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
-    function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
-    function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+    function request(username) { return { type: userConstants.DELETE_REQUEST, username } }
+    function success(username) { return { type: userConstants.DELETE_SUCCESS, username } }
+    function failure(username, error) { return { type: userConstants.DELETE_FAILURE, username, error } }
 }

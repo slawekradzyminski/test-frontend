@@ -11,7 +11,7 @@ import { RegisterPage } from '../RegisterPage';
 import { AddUserComponent } from "../AddUserComponent";
 import { EditUserComponent } from "../EditUserComponent";
 
-function App() {
+function  App() {
     const alert = useSelector(state => state.alert);
     const dispatch = useDispatch();
 

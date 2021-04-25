@@ -14,8 +14,8 @@ function HomePage() {
         dispatch(userActions.getAll());
     }, []);
 
-    function handleDeleteUser(id) {
-        dispatch(userActions.delete(id));
+    function handleDeleteUser(username) {
+        dispatch(userActions.delete(username));
     }
 
     const editUser = (user) => {
@@ -40,7 +40,7 @@ function HomePage() {
                                 : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
                                 : <span> - <a onClick={() =>
                                         window.confirm("Are you sure you wish to delete this item?") &&
-                                        handleDeleteUser(user.id)
+                                        handleDeleteUser(user.username)
                                     } className="text-primary delete">Delete</a></span>
                             }
                             {
