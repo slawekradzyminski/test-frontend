@@ -20,6 +20,7 @@ function HomePage() {
 
     const editUser = (user) => {
         localStorage.setItem("userToEdit", JSON.stringify(user));
+        dispatch(userActions.saveEditDetails(user));
         history.push('/edit-user');
     }
 

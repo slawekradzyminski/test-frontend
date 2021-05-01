@@ -66,7 +66,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`${config.apiUrl}/users/${user.username}`, requestOptions).then(handleResponse);
 }
 
 function _delete(username) {

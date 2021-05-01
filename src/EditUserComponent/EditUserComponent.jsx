@@ -5,45 +5,36 @@ import {Link} from "react-router-dom";
 
 function EditUserComponent() {
 
-    const editState = useSelector(state => state.edituser);
+    const edituser = useSelector(state => state.edituser);
     const dispatch = useDispatch();
+    const [user, setUser] = useState({
+        firstName: edituser.firstName,
+        lastName: edituser.lastName,
+        username: edituser.username,
+        email: edituser.email,
+        roles: edituser.roles
+    });
 
-    let userToEdit = JSON.parse(localStorage.getItem('userToEdit'));
-    const [id, setId] = useState(userToEdit.id);
-    const [firstName, setFirstName] = useState(userToEdit.firstName);
-    const [lastName, setLastName] = useState(userToEdit.lastName);
-    const [username, setUsername] = useState(userToEdit.username);
-    const [password, setPassword] = useState(userToEdit.password);
+    const {username, email, firstName, lastName, roles} = user;
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
-        let id = userToEdit.id;
-        dispatch(userActions.getById(id))
+        let userToEdit = JSON.parse(localStorage.getItem('userToEdit'));
+        dispatch(userActions.getByUsername(userToEdit.username))
     }, [])
 
-    const saveFirstName = (event) => {
-        setFirstName(event.target.value)
-    }
-
-    const saveLastName = (event) => {
-        setLastName(event.target.value)
-    }
-
-    const saveUsername = (event) => {
-        setUsername(event.target.value)
-    }
-
-    const savePassword = (event) => {
-        setPassword(event.target.value)
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setUser(user => ({ ...user, [name]: value }));
     }
 
     const saveUser = (e) => {
         e.preventDefault();
         setSubmitted(true)
         let user = {
-            id, firstName, lastName, username, password
+            firstName, lastName, username, email, roles
         };
-        if (user.firstName && user.lastName && user.username && user.password && user.id) {
+        if (user.firstName && user.lastName && user.username && user.email && user.roles) {
             dispatch(userActions.update(user));
         }
     };
@@ -51,13 +42,13 @@ function EditUserComponent() {
     return (
         <div className="col-lg-8 offset-lg-2">
             <h2>Edit user</h2>
-            {editState.loading && <em>Loading user...</em>}
-            {editState.error && <span className="text-danger">ERROR: {editState.error}</span>}
-            {editState.user &&
+            {edituser.loading && <em>Loading user...</em>}
+            {edituser.error && <span className="text-danger">ERROR: {edituser.error}</span>}
+            {edituser.firstName &&
             <form name="form" onSubmit={saveUser}>
                 <div className="form-group">
                     <label>First Name</label>
-                    <input type="text" name="firstName" value={firstName} onChange={saveFirstName}
+                    <input type="text" name="firstName" value={firstName} onChange={handleChange}
                            className={'form-control' + (submitted && !firstName ? ' is-invalid' : '')}/>
                     {submitted && !firstName &&
                     <div className="invalid-feedback">First Name is required</div>
@@ -65,26 +56,34 @@ function EditUserComponent() {
                 </div>
                 <div className="form-group">
                     <label>Last Name</label>
-                    <input type="text" name="lastName" value={lastName} onChange={saveLastName}
+                    <input type="text" name="lastName" value={lastName} onChange={handleChange}
                            className={'form-control' + (submitted && !lastName ? ' is-invalid' : '')}/>
                     {submitted && !lastName &&
                     <div className="invalid-feedback">Last Name is required</div>
                     }
                 </div>
                 <div className="form-group">
+                    <label>Email</label>
+                    <input type="text" name="email" value={email} onChange={handleChange}
+                           className={'form-control' + (submitted && !email ? ' is-invalid' : '')}/>
+                    {submitted && !email &&
+                    <div className="invalid-feedback">Email is required</div>
+                    }
+                </div>
+                <div className="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" value={username} onChange={saveUsername}
+                    <input disabled={true} type="text" name="username" value={username} onChange={handleChange}
                            className={'form-control' + (submitted && !username ? ' is-invalid' : '')}/>
                     {submitted && !username &&
                     <div className="invalid-feedback">Username is required</div>
                     }
                 </div>
                 <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={savePassword}
-                           className={'form-control' + (submitted && !password ? ' is-invalid' : '')}/>
-                    {submitted && !password &&
-                    <div className="invalid-feedback">Password is required</div>
+                    <label>Roles</label>
+                    <input disabled={true} type="text" name="roles" value={roles} onChange={handleChange}
+                           className={'form-control' + (submitted && !email ? ' is-invalid' : '')}/>
+                    {submitted && !email &&
+                    <div className="invalid-feedback">Email is required</div>
                     }
                 </div>
                 <div className="form-group">

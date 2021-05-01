@@ -8,9 +8,10 @@ export const userActions = {
     logout,
     register,
     addUser,
+    saveEditDetails,
     update,
     getAll,
-    getById,
+    getByUsername,
     delete: _delete
 };
 
@@ -103,11 +104,11 @@ function getAll() {
     function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
 }
 
-function getById(id) {
+function getByUsername(username) {
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(username));
 
-        userService.getById(id)
+        userService.getById(username)
             .then(
                 user => dispatch(success(user)),
                 error => dispatch(failure(error.toString()))
@@ -117,6 +118,14 @@ function getById(id) {
     function request(id) { return { type: userConstants.GET_REQUEST, id } }
     function success(user) { return { type: userConstants.GET_SUCCESS, user } }
     function failure(error) { return { type: userConstants.GET_FAILURE, error } }
+}
+
+function saveEditDetails(user) {
+    return dispatch => {
+        dispatch(request(user));
+
+    function request(user) { return { type: userConstants.SAVE_USER, user } }
+    }
 }
 
 function update(user) {
