@@ -5,72 +5,70 @@ import {Link} from "react-router-dom";
 
 function AddUserComponent() {
 
-    const [id, setId] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [submitted, setSubmitted] = useState(false);
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        roles: [ 'ROLE_CLIENT' ]
+    });
 
+    const [submitted, setSubmitted] = useState(false);
     const dispatch = useDispatch();
 
-    const saveUser = (e) => {
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setUser(user => ({ ...user, [name]: value }));
+    }
+
+    function handleSubmit(e) {
         e.preventDefault();
-        setSubmitted(true)
-        const user = {
-            id, firstName, lastName, username, password
-        };
-        if (user.firstName && user.lastName && user.username && user.password) {
-            dispatch(userActions.addUser(user));
+
+        setSubmitted(true);
+        if (user.firstName && user.lastName && user.username && user.password && user.email && user.roles) {
+            dispatch(userActions.register(user));
         }
-    };
-
-    const saveFirstName = (event) => {
-        setFirstName(event.target.value)
-    }
-
-    const saveLastName = (event) => {
-        setLastName(event.target.value)
-    }
-
-    const saveUsername = (event) => {
-        setUsername(event.target.value)
-    }
-
-    const savePassword = (event) => {
-        setPassword(event.target.value)
     }
 
     return (
         <div className="col-lg-8 offset-lg-2">
-            <h2>Add user</h2>
-            <form name="form" onSubmit={saveUser}>
+            <h2>Register</h2>
+            <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>First Name</label>
-                    <input type="text" name="firstName" value={firstName} onChange={saveFirstName} className={'form-control' + (submitted && !firstName ? ' is-invalid' : '')} />
-                    {submitted && !firstName &&
+                    <input type="text" name="firstName" value={user.firstName} onChange={handleChange} className={'form-control' + (submitted && !user.firstName ? ' is-invalid' : '')} />
+                    {submitted && !user.firstName &&
                     <div className="invalid-feedback">First Name is required</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Last Name</label>
-                    <input type="text" name="lastName" value={lastName} onChange={saveLastName} className={'form-control' + (submitted && !lastName ? ' is-invalid' : '')} />
-                    {submitted && !lastName &&
+                    <input type="text" name="lastName" value={user.lastName} onChange={handleChange} className={'form-control' + (submitted && !user.lastName ? ' is-invalid' : '')} />
+                    {submitted && !user.lastName &&
                     <div className="invalid-feedback">Last Name is required</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" value={username} onChange={saveUsername} className={'form-control' + (submitted && !username ? ' is-invalid' : '')} />
-                    {submitted && !username &&
+                    <input type="text" name="username" value={user.username} onChange={handleChange} className={'form-control' + (submitted && !user.username ? ' is-invalid' : '')} />
+                    {submitted && !user.username &&
                     <div className="invalid-feedback">Username is required</div>
                     }
                 </div>
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" value={password} onChange={savePassword} className={'form-control' + (submitted && !password ? ' is-invalid' : '')} />
-                    {submitted && !password &&
+                    <input type="password" name="password" value={user.password} onChange={handleChange} className={'form-control' + (submitted && !user.password ? ' is-invalid' : '')} />
+                    {submitted && !user.password &&
                     <div className="invalid-feedback">Password is required</div>
+                    }
+                </div>
+                <div className="form-group">
+                    <label>Email</label>
+                    <input type="text" name="email" value={user.email} onChange={handleChange}
+                           className={'form-control' + (submitted && !user.email ? ' is-invalid' : '')}/>
+                    {submitted && !user.email &&
+                    <div className="invalid-feedback">Email is required</div>
                     }
                 </div>
                 <div className="form-group">
