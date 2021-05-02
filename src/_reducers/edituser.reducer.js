@@ -5,19 +5,6 @@ export function edituser(state = {}, action) {
         case userConstants.SAVE_USER:
             return action.user;
 
-        case userConstants.GET_REQUEST:
-            return {
-                username: action.username,
-                loading: true
-            };
-        case userConstants.GET_SUCCESS:
-            return action.user;
-
-        case userConstants.GET_FAILURE:
-            return {
-                error: action.error
-            };
-
         case userConstants.UPDATE_USER_REQUEST:
             return {
                 loading: true

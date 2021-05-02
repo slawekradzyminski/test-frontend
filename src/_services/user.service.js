@@ -6,7 +6,6 @@ export const userService = {
     logout,
     register,
     getAll,
-    getByUsername,
     update,
     delete: _delete
 };
@@ -38,15 +37,6 @@ function getAll() {
     };
 
     return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
-}
-
-function getByUsername(username) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(`${config.apiUrl}/users/${username}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
