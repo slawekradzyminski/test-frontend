@@ -3,8 +3,10 @@ import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {userActions} from '../_actions';
-import {validateField} from "../_helpers/field-validator";
-import {Input} from "./Input";
+import {validateField} from "./util/field-validator";
+import {Input} from "./common/Input";
+import {getHandleChange} from "./util/change";
+import {PrimaryButton} from "./common/PrimaryButton";
 
 function LoginPage() {
     const [username, setUsername] = useState('')
@@ -33,14 +35,11 @@ function LoginPage() {
             <h2>Login</h2>
             <form name="form" onSubmit={handleSubmit}>
                 <Input name="username" value={username} submitted={submitted}
-                       handleChange={e => setUsername(e.target.value)}/>
+                       handleChange={getHandleChange(setUsername)}/>
                 <Input name="password" value={password} submitted={submitted}
-                       handleChange={e => setPassword(e.target.value)}/>
+                       handleChange={getHandleChange(setPassword)}/>
                 <div className="form-group">
-                    <button className="btn btn-primary">
-                        {loggingIn && <span className="spinner-border spinner-border-sm mr-1"/>}
-                        Login
-                    </button>
+                    <PrimaryButton text="Login" isLoading={loggingIn}/>
                     <Link to="/register" className="btn btn-link">Register</Link>
                 </div>
             </form>
