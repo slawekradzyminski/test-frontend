@@ -7,7 +7,6 @@ export const userActions = {
     login,
     logout,
     register,
-    addUser,
     saveEditDetails,
     update,
     getAll,
@@ -50,7 +49,7 @@ function register(user) {
             .then(
                 () => {
                     dispatch(success());
-                    history.push('/login');
+                    history.push('/');
                     dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
@@ -63,29 +62,6 @@ function register(user) {
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
-}
-
-function addUser(user) {
-    return dispatch => {
-        dispatch(request(user));
-
-        userService.register(user)
-            .then(
-                () => {
-                    dispatch(success());
-                    history.push('/');
-                    dispatch(alertActions.success('Adding new user successful'));
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
-                }
-            );
-    };
-
-    function request(user) { return { type: userConstants.ADD_USER_REQUEST, user } }
-    function success(user) { return { type: userConstants.ADD_USER_SUCCESS, user } }
-    function failure(error) { return { type: userConstants.ADD_USER_FAILURE, error } }
 }
 
 function getAll() {
@@ -108,7 +84,7 @@ function getByUsername(username) {
     return dispatch => {
         dispatch(request(username));
 
-        userService.getById(username)
+        userService.getByUsername(username)
             .then(
                 user => dispatch(success(user)),
                 error => dispatch(failure(error.toString()))

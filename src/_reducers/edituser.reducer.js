@@ -12,6 +12,7 @@ export function edituser(state = {}, action) {
             };
         case userConstants.GET_SUCCESS:
             return action.user;
+
         case userConstants.GET_FAILURE:
             return {
                 error: action.error
