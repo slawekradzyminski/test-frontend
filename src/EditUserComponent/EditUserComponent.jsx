@@ -11,8 +11,8 @@ function EditUserComponent() {
     const [submitted, setSubmitted] = useState(false);
 
     function handleChange(e) {
-        const { name, value } = e.target;
-        setUser(user => ({ ...user, [name]: value }));
+        const {name, value} = e.target;
+        setUser(user => ({...user, [name]: value}));
     }
 
     const saveUser = (e) => {
@@ -24,7 +24,12 @@ function EditUserComponent() {
     };
 
     if (user === null) {
-        return 'Something is no yes...';
+        return (
+            <div className="col-lg-8 offset-lg-2">
+                Something is no yes...
+                <Link to="/" className="btn btn-link">Go back</Link>
+            </div>
+        );
     }
 
     return (
@@ -58,25 +63,15 @@ function EditUserComponent() {
                 </div>
                 <div className="form-group">
                     <label>Username</label>
-                    <input disabled={true} type="text" name="username" value={user.username} onChange={handleChange}
-                           className={'form-control' + (submitted && !user.username ? ' is-invalid' : '')}/>
-                    {submitted && !user.username &&
-                    <div className="invalid-feedback">Username is required</div>
-                    }
+                    <input disabled={true} type="text" name="username" value={user.username}
+                           className={'form-control'}/>
                 </div>
                 <div className="form-group">
                     <label>Roles</label>
-                    <input disabled={true} type="text" name="roles" value={user.roles} onChange={handleChange}
-                           className={'form-control' + (submitted && !user.roles ? ' is-invalid' : '')}/>
-                    {submitted && !user.roles &&
-                    <div className="invalid-feedback">Email is required</div>
-                    }
+                    <input disabled={true} type="text" name="roles" value={user.roles} className={'form-control'}/>
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary">
-                        {/*{registering && <span className="spinner-border spinner-border-sm mr-1"></span>}*/}
-                        Save changes
-                    </button>
+                    <button className="btn btn-primary">Save changes</button>
                     <Link to="/" className="btn btn-link">Cancel</Link>
                 </div>
             </form>
@@ -85,4 +80,4 @@ function EditUserComponent() {
     );
 }
 
-export { EditUserComponent };
+export {EditUserComponent};
