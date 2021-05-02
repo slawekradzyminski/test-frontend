@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 const PrimaryButton = props => {
     return (
@@ -11,3 +12,8 @@ const PrimaryButton = props => {
 };
 
 export {PrimaryButton};
+
+PrimaryButton.propTypes = {
+    isLoading: PropTypes.bool,
+    text: PropTypes.string,
+}

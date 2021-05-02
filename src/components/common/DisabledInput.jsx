@@ -1,5 +1,6 @@
 import React from 'react';
 import {capitalizeAndAddSpace} from "../util/string";
+import PropTypes from 'prop-types';
 
 const DisabledInput = props => {
     return (
@@ -13,3 +14,8 @@ const DisabledInput = props => {
 };
 
 export {DisabledInput};
+
+DisabledInput.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.string,
+}
