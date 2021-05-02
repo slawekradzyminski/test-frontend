@@ -3,7 +3,6 @@ import {Link, useLocation} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {userActions} from '../_actions';
-import {validateField} from "./util/field-validator";
 import {Input} from "./common/Input";
 import {getHandleChange} from "./util/change";
 import {PrimaryButton} from "./common/PrimaryButton";
@@ -24,10 +23,8 @@ function LoginPage() {
         e.preventDefault();
 
         setSubmitted(true);
-        if (!validateField(username) && !validateField(password)) {
-            const {from} = location.state || {from: {pathname: "/"}};
-            dispatch(userActions.login(username, password, from));
-        }
+        const {from} = location.state || {from: {pathname: "/"}};
+        dispatch(userActions.login(username, password, from));
     }
 
     return (
@@ -36,7 +33,7 @@ function LoginPage() {
             <form name="form" onSubmit={handleSubmit}>
                 <Input name="username" value={username} submitted={submitted}
                        handleChange={getHandleChange(setUsername)}/>
-                <Input name="password" value={password} submitted={submitted}
+                <Input name="password" value={password} submitted={submitted} type='password'
                        handleChange={getHandleChange(setPassword)}/>
                 <div className="form-group">
                     <PrimaryButton text="Login" isLoading={loggingIn}/>

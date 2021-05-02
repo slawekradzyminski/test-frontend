@@ -36,7 +36,7 @@ function RegisterPage() {
                        handleChange={getHandleChange(setLastName)}/>
                 <Input name="username" value={username} submitted={submitted}
                        handleChange={getHandleChange(setUsername)}/>
-                <Input name="password" value={password} submitted={submitted}
+                <Input name="password" value={password} submitted={submitted} type='password'
                        handleChange={getHandleChange(setPassword)}/>
                 <Input name="email" value={email} submitted={submitted}
                        handleChange={getHandleChange(setEmail)}/>
