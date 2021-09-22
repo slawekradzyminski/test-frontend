@@ -4,7 +4,7 @@
     "license": "MIT",
     "scripts": {
         "build": "webpack --mode production",
-        "start": "webpack-dev-server --open"
+        "start": "webpack-dev-server --host 0.0.0.0 --open"
     },
     "dependencies": {
         "history": "^4.10.1",
