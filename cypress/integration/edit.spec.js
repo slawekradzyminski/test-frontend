@@ -1,15 +1,26 @@
 /// <reference types="cypress" />
 
-const getRandomString = () => {
-    return Math.random().toString(36).substring(7)
-}
+import { getRandomString } from '../util/randomUtil'
 
 describe('Edit user', () => {
+    const username = getRandomString()
+    const password = getRandomString()
     const firstName = getRandomString()
     const lastName = getRandomString()
+    let userId
+
+    before(() => {
+        cy.register(username, password, firstName, lastName).then((id) => {
+            userId = id
+        })
+    })
+
+    after(() => {
+        cy.deleteUser(userId)
+    })
 
     beforeEach(() => {
-        cy.login('slawenty', 'password')
+        cy.login(username, password)
         cy.visit('/')
     })
   

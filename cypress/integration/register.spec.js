@@ -1,14 +1,12 @@
 /// <reference types="cypress" />
 
+import { getRandomString } from '../util/randomUtil'
+
 describe('Register page', () => {
     beforeEach(() => {
       cy.visit('/register')
     })
   
-    const getRandomString = () => {
-        return Math.random().toString(36).substring(7)
-    }
-
     it('should successfully register', () => {
         cy.get('[name=username]').type(getRandomString())
         cy.get('[name=password]').type(getRandomString())    
