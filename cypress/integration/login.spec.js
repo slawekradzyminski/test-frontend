@@ -4,9 +4,14 @@ import { getRandomString } from '../util/randomUtil'
 
 describe('Login page', () => {
 
-    beforeEach(() => {
-        cy.visit('/')
-    })
+    // beforeEach(() => {
+    //     const stub = cy.stub().as('open')
+    //     cy.on('window:before:load', (win) => {
+    //         cy.stub(win, 'open').callsFake(stub)
+    //     })
+
+    //     cy.visit('/')
+    // })
 
     it('should login correctly', () => {
         const username = getRandomString()
@@ -30,4 +35,9 @@ describe('Login page', () => {
         cy.get('.invalid-feedback').eq(1).should('have.text', 'Password is required')
     })
 
+    it.only('link to cantest.it should work', () => {
+        cy.visit('/')
+        cy.get('p a').click()
+        cy.location('pathname').should('contain', 'login')
+    })
 })
