@@ -2,6 +2,33 @@
 
 import { getRandomString } from '../../util/randomUtil'
 
+const getCredentials = () => {
+    return {
+        username: getRandomString(),
+        password: getRandomString(),
+        firstName: getRandomString(),
+        lastName: getRandomString()
+    }
+}
+
+const fillCredentials = (credentials) => {
+    cy.get('[name=firstName]').clear().type(credentials.firstName)
+    cy.get('[name=lastName').clear().type(credentials.lastName)
+    cy.get('[name=username]').clear().type(credentials.username)
+    cy.get('[name=password').clear().type(credentials.password)
+}
+
+const assertCorrectRequestWasSent = (credentials, id) => {
+    cy.wait('@editRequest').its('request.body')
+        .should('deep.equal', {
+            "id": id,
+            "firstName": credentials.firstName,
+            "lastName": credentials.lastName,
+            "username": credentials.username,
+            "password": credentials.password,
+        })
+}
+
 describe('Edit user', () => {
 
     const userResponse = require('../../fixtures/getAllUsers.json')
@@ -23,32 +50,16 @@ describe('Edit user', () => {
 
     it('should send correct request to backend', () => {
         // given
-        const username = getRandomString()
-        const password = getRandomString()
-        const firstName = getRandomString()
-        const lastName = getRandomString()
-        cy.get('[name=firstName]').clear().type(firstName)
-        cy.get('[name=lastName').clear().type(lastName)
-        cy.get('[name=username]').clear().type(username)
-        cy.get('[name=password').clear().type(password)
-
-        cy.intercept('PUT', `**/users/${userResponse[0].id}`, {
-            statusCode: 200
-        }).as('editRequest')
+        const credentials = getCredentials()
+        fillCredentials(credentials)
+        cy.intercept('PUT', `**/users/${userResponse[0].id}`).as('editRequest')
 
         // when
         cy.get('.btn-primary').click()
 
         // then
         cy.get('.alert-success').should('have.text', 'Updating user successful')
-        cy.wait('@editRequest').its('request.body')
-            .should('deep.equal', {
-                "id": userResponse[0].id,
-                "firstName": firstName,
-                "lastName": lastName,
-                "username": username,
-                "password": password,
-            })
+        assertCorrectRequestWasSent(credentials, userResponse[0].id)
     })
 
 })
