@@ -18,6 +18,10 @@ export const homePage = {
 
     clickLogout: () => {
         cy.get(logoutLink).click()
+    },
+
+    deleteUserByIndex: (index) => {
+        cy.get('.delete').eq(index).click()
     }
 
 }
