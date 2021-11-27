@@ -30,3 +30,13 @@ Cypress.Commands.add('register', (username, password, firstName, lastName) => {
 })
 
 
+Cypress.Commands.add('deleteUser', (id) => {
+    cy.request({
+        method: 'DELETE',
+        url: `http://localhost:4000/users/${id}`,
+    }).then((resp) => {
+        expect(resp.status).to.eq(204)
+    })
+})
+
+

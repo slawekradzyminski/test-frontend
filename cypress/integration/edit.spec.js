@@ -2,7 +2,7 @@
 
 import { getRandomString } from "../util/random"
 
-describe('Home page', () => {
+describe('Edit page', () => {
     let userId
 
     const username = getRandomString()
@@ -25,19 +25,13 @@ describe('Home page', () => {
         cy.login(username, password)
     })
   
-    it('should display at least one user', () => {
-        cy.get('ul li').should('have.length.at.least', 1)
+    it('should correctly autocomplete data', () => {
+        cy.get('ul li').contains(`${firstName} ${lastName}`).find('.edit').click()
+        cy.get("[name='firstName']").should('have.value', firstName)
+        cy.get("[name='lastName']").should('have.value', lastName)
+        cy.get("[name='username']").should('have.value', username)
+        cy.get("[name='password']").should('have.value', password)
     })
 
-    it('should logout', () => {
-        cy.get('#logout').click()
-        cy.url().should('contain', '/login')
-    })
-
-    it('should open add more users page', () => {
-        cy.get('#addmore').click()
-        cy.url().should('eq', 'http://localhost:8080/add-user')
-    })
-  
   })
   
