@@ -19,6 +19,12 @@ describe('login page', () => {
         cy.get('button').click()
         cy.get('.alert-danger').should('have.text', 'Login failed - bad username or password')
     })
+
+    it('should open register page', () => {
+        cy.get('.btn-link').click()
+        cy.url().should('contain', '/register')
+        cy.get('h2').should('have.text', 'Register')
+    })
   
   })
   
