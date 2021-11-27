@@ -6,26 +6,13 @@ describe('login page', () => {
     beforeEach(() => {
         cy.visit('http://localhost:8080')
     })
-  
+
     it('should successfully login', () => {
         const username = getRandomString()
         const password = getRandomString()
         const firstName = getRandomString()
         const lastName = getRandomString()
-
-        cy.request({
-            method: 'POST',
-            url: 'http://localhost:4000/users/register',
-            body: {
-                username: username,
-                password: password,
-                firstName: firstName,
-                lastName: lastName
-            }
-        }).then((resp) => {
-            expect(resp.status).to.eq(201)
-        })
-
+        cy.register(username, password, firstName, lastName)
         cy.get('[name=username]').type(username)
         cy.get('[name=password]').type(password)
         cy.get('button').click()
@@ -45,6 +32,5 @@ describe('login page', () => {
         cy.url().should('contain', '/register')
         cy.get('h2').should('have.text', 'Register')
     })
-  
-  })
-  
+
+})
