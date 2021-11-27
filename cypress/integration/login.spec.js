@@ -1,15 +1,35 @@
 /// <reference types="cypress" />
 
+import { getRandomString } from "../util/random"
+
 describe('login page', () => {
     beforeEach(() => {
         cy.visit('http://localhost:8080')
     })
   
     it('should successfully login', () => {
-        cy.get('[name=username]').type('slawenty')
-        cy.get('[name=password]').type('password')
+        const username = getRandomString()
+        const password = getRandomString()
+        const firstName = getRandomString()
+        const lastName = getRandomString()
+
+        cy.request({
+            method: 'POST',
+            url: 'http://localhost:4000/users/register',
+            body: {
+                username: username,
+                password: password,
+                firstName: firstName,
+                lastName: lastName
+            }
+        }).then((resp) => {
+            expect(resp.status).to.eq(201)
+        })
+
+        cy.get('[name=username]').type(username)
+        cy.get('[name=password]').type(password)
         cy.get('button').click()
-        cy.get('h1').should('have.text', 'Hi Slawomir!')
+        cy.get('h1').should('have.text', `Hi ${firstName}!`)
         cy.get('#app p').first().should('contain.text', 'Congratulations')
     })
 
