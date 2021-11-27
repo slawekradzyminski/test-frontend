@@ -3,5 +3,6 @@ declare namespace Cypress {
         login(username: string, password: string): void;
         register(username: string, password: string, firstName: string, lastName: string): Promise<number>;
         deleteUser(id: number): void;
+        checkUser(id: number): Promise<number>;
     }
 }

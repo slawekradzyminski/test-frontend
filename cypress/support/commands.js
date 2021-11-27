@@ -39,4 +39,14 @@ Cypress.Commands.add('deleteUser', (id) => {
     })
 })
 
+Cypress.Commands.add('checkUser', (id) => {
+    cy.request({
+        method: 'GET',
+        url: `http://localhost:4000/users/${id}`,
+        failOnStatusCode: false
+    }).then((resp) => {
+        return resp.status
+    })
+})
+
 
