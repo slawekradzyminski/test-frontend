@@ -21,11 +21,12 @@ describe('Home page', () => {
     })
 
     beforeEach(() => {
-        cy.visit('http://localhost:8080')
+        cy.visit('/')
         cy.login(username, password)
     })
   
     it('should display at least one user', () => {
+        cy.viewport('iphone-xr')
         cy.get('ul li').should('have.length.at.least', 1)
     })
 
@@ -39,5 +40,9 @@ describe('Home page', () => {
         cy.url().should('eq', 'http://localhost:8080/add-user')
     })
   
+    it('should have correct link url', () => {
+        cy.get('.text-center a').should('have.attr', 'href', 'https://cantest.it')
+    })
+
   })
   
