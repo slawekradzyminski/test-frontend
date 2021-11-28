@@ -19,11 +19,19 @@ describe('login page with mocks', () => {
                 lastName: getRandomString(),
                 firstName: firstName
             }
-        })
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
+        }).as('loginRequest')
+
+        const username = getRandomString()
+        const password = getRandomString()
+        cy.get('[name=username]').type(username)
+        cy.get('[name=password]').type(password)
         cy.get('button').click()
         cy.get('h1').should('have.text', `Hi ${firstName}!`)
+        cy.wait('@loginRequest').its('request.body')
+            .should('deep.equal', {
+                username: username,
+                password: password
+            })
     })
 
     it('should fail to login', () => {
