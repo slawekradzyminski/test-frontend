@@ -8,6 +8,6 @@ declare namespace Cypress {
         verifyCorrectLoginRequestBody(username: string, password: string): void;
         mockSuccessfulLoginRegister(): void;
         verifyCorrectRegisterRequestBody(username: string, password: string, firstName: string, lastName: string): void;
-        setTokenInLocalStorage(): void
+        setTokenInLocalStorage(): void;
     }
 }
