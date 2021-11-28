@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { loginPage } from "../../pages/loginPage"
+import { registerPage } from "../../pages/registerPage"
 import { getRandomString } from "../../util/random"
 
 describe('register page with mocks', () => {
@@ -8,31 +10,21 @@ describe('register page with mocks', () => {
     })
 
     it('should successfully register', () => {
-        cy.intercept('POST', '**/users/register', {
-            statusCode: 201,
-            body: {
-                id: 1,
-                username: getRandomString(),
-                firstName: getRandomString(),
-                lastName: getRandomString(),
-                password: getRandomString()
-            }
-        }).as('registerRequest')
-
+        // given
         const username = getRandomString()
         const firstName = getRandomString()
         const lastName = getRandomString()
         const password = getRandomString()
-        cy.get('[name=username]').type(username)
-        cy.get('[name=password').type(password)
-        cy.get('[name=firstName]').type(firstName)
-        cy.get('[name=lastName]').type(lastName)
-        cy.get('button').click()
+        cy.mockSuccessfulLoginRegister()
 
-        cy.get('.alert').should('have.text', 'Registration successful')
+        // when
+        registerPage.register(username, password, firstName, lastName)
+
+        // then
+        loginPage.verifyRegistrationSuccessfulAlert()
         cy.url().should('contain', '/login')
-        cy.wait('@registerRequest').its('request.body')
-            .should('deep.equal', { username, password, firstName, lastName })
+        cy.verifyCorrectRegisterRequestBody(username, password, firstName, lastName)
+        
     })
 
     it('should fail to register if user already exists', () => {

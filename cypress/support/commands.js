@@ -66,10 +66,32 @@ Cypress.Commands.add('mockSuccessfulLogin', (firstName) => {
 
 Cypress.Commands.add('verifyCorrectLoginRequestBody', (username, password) => {
     cy.wait('@loginRequest').its('request.body')
-            .should('deep.equal', {
-                username: username,
-                password: password
-            })
+        .should('deep.equal', {
+            username: username,
+            password: password
+        })
 })
+
+Cypress.Commands.add('mockSuccessfulLoginRegister', () => {
+    cy.intercept('POST', '**/users/register', {
+        statusCode: 201,
+        body: {
+            id: 1,
+            username: getRandomString(),
+            firstName: getRandomString(),
+            lastName: getRandomString(),
+            password: getRandomString()
+        }
+    }).as('registerRequest')
+
+})
+
+Cypress.Commands.add('verifyCorrectRegisterRequestBody',
+    (username, password, firstName, lastName) => {
+        cy.wait('@registerRequest').its('request.body')
+            .should('deep.equal', { username, password, firstName, lastName })
+    })
+
+
 
 

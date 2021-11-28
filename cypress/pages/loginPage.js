@@ -3,6 +3,7 @@ const passwordField = '[name=password]'
 const loginButton = 'button'
 const errorAlert = '.alert-danger'
 const spinner = '.spinner-border'
+const successfulAlert = '.alert'
 
 export const loginPage = {
     login: (username, password) => {
@@ -17,5 +18,10 @@ export const loginPage = {
 
     verifySpinner: () => {
         cy.get(spinner).should('be.visible')
+    },
+
+    verifyRegistrationSuccessfulAlert: () => {
+        cy.get(successfulAlert).should('have.text', 'Registration successful')
+
     }
 }
