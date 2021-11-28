@@ -97,6 +97,19 @@ Cypress.Commands.add('setTokenInLocalStorage', () => {
     window.localStorage.setItem('user', JSON.stringify({ user }))
 })
 
+Cypress.Commands.add('mockEditUser', (testUser) => {
+    cy.intercept('PUT', `**/users/${testUser.id}`, {
+        statusCode: 200,
+        body: {
+            id: testUser.id,
+            firstName: testUser.firstName,
+            lastName: testUser.lastName,
+            username: testUser.username,
+            password: testUser.password,
+        }
+    }).as('putRequest')
+})
+
 
 
 

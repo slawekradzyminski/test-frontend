@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const { editPage } = require('../../pages/editPage')
+const { homePage } = require('../../pages/homePage')
 const { getRandomString } = require('../../util/random')
 
 describe('Edit page with mocks', () => {
@@ -18,55 +20,42 @@ describe('Edit page with mocks', () => {
         cy.get('ul li').eq(2).find('.edit').click()
 
         // then
-        verifyUserDataAutocompleted(users[2])
+        cy.get("[name='firstName']").should('have.value', users[2].firstName)
+        cy.get("[name='lastName']").should('have.value', users[2].lastName)
+        cy.get("[name='username']").should('have.value', users[2].username)
+        cy.get("[name='password']").should('have.value', users[2].password)
     })
+
+    const testUser = {
+        id: users[2].id,
+        firstName: getRandomString(),
+        lastName: getRandomString(),
+        username: getRandomString(),
+        password: getRandomString()
+    }
 
     it('should edit user', () => {
         // given
-        const newFirstName = getRandomString()
-        const newLastName = getRandomString()
-        const newUsername = getRandomString()
-        const newPassword = getRandomString()
-
-        cy.get('ul li').eq(2).find('.edit').click()
-        cy.get("[name='firstName']").clear().type(newFirstName)
-        cy.get("[name='lastName']").clear().type(newLastName)
-        cy.get("[name='username']").clear().type(newUsername)
-        cy.get("[name='password']").clear().type(newPassword)
-
-        const id = users[2].id
-        cy.intercept('PUT', `**/users/${id}`, {
-            statusCode: 200,
-            body: {
-                id: id,
-                firstName: newFirstName,
-                lastName: newLastName,
-                username: newUsername,
-                password: newPassword,
-            }
-        }).as('putRequest')
+        homePage.clickEditUserWithIndex(2)
+        cy.mockEditUser(testUser)
 
         // when
-        cy.get('button').click()
+        editPage.changeUserDetails(testUser)
+        editPage.clickSaveUserDetails()
 
         // then
-        cy.wait('@putRequest').its('request.body')
-            .should('deep.equal', {
-                id: id,
-                firstName: newFirstName,
-                lastName: newLastName,
-                username: newUsername,
-                password: newPassword,
-            })
-
+        verifyCorrectRequestBody(testUser)
     })
-
 })
 
-const verifyUserDataAutocompleted = (user) => {
-    cy.get("[name='firstName']").should('have.value', user.firstName)
-    cy.get("[name='lastName']").should('have.value', user.lastName)
-    cy.get("[name='username']").should('have.value', user.username)
-    cy.get("[name='password']").should('have.value', user.password)
+const verifyCorrectRequestBody = (testUser) => {
+    cy.wait('@putRequest').its('request.body')
+        .should('deep.equal', {
+            id: testUser.id,
+            firstName: testUser.firstName,
+            lastName: testUser.lastName,
+            username: testUser.username,
+            password: testUser.password,
+        })
 }
 

@@ -9,5 +9,6 @@ declare namespace Cypress {
         mockSuccessfulLoginRegister(): void;
         verifyCorrectRegisterRequestBody(username: string, password: string, firstName: string, lastName: string): void;
         setTokenInLocalStorage(): void;
+        mockEditUser(user: { id: number; firstName: string; lastName: string; username: string; password: string; }): void;
     }
 }
