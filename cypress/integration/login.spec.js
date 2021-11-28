@@ -26,7 +26,7 @@ describe('login page', () => {
         loginPage.login('wrong', 'wrong')
 
         // then
-        loginPage.verifyLoginFailedErrorMessage()
+        loginPage.verifyLoginFailedErrorMessage('Login failed - bad username or password')
     })
 
     it('should open register page', () => {

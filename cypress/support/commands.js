@@ -1,3 +1,5 @@
+import { getRandomString } from "../util/random"
+
 Cypress.Commands.add('login', (username, password) => {
     cy.request({
         method: 'POST',
@@ -47,6 +49,27 @@ Cypress.Commands.add('checkUser', (id) => {
     }).then((resp) => {
         return resp.status
     })
+})
+
+Cypress.Commands.add('mockSuccessfulLogin', (firstName) => {
+    cy.intercept('POST', '**/users/authenticate', {
+        statusCode: 200,
+        body: {
+            id: 1,
+            token: "12345",
+            username: getRandomString(),
+            lastName: getRandomString(),
+            firstName: firstName
+        }
+    }).as('loginRequest')
+})
+
+Cypress.Commands.add('verifyCorrectLoginRequestBody', (username, password) => {
+    cy.wait('@loginRequest').its('request.body')
+            .should('deep.equal', {
+                username: username,
+                password: password
+            })
 })
 
 

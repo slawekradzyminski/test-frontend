@@ -12,52 +12,55 @@ describe('login page with mocks', () => {
     it('should successfully login', () => {
         // given
         const firstName = getRandomString()
-
-        cy.intercept('POST', '**/users/authenticate', {
-            statusCode: 200,
-            body: {
-                id: 1,
-                token: "12345",
-                username: getRandomString(),
-                lastName: getRandomString(),
-                firstName: firstName
-            }
-        }).as('loginRequest')
         const username = getRandomString()
         const password = getRandomString()
+        cy.mockSuccessfulLogin(firstName)
 
         // when
         loginPage.login(username, password)
 
         // then
         homePage.verifyWelcomeMessage(firstName)
-        cy.wait('@loginRequest').its('request.body')
-            .should('deep.equal', {
-                username: username,
-                password: password
-            })
+        cy.verifyCorrectLoginRequestBody(username, password)
     })
 
     it('should fail to login', () => {
+        // given
         const message = 'Login failed'
+        mockFailedLogin(message)
 
-        cy.intercept('POST', '**/users/authenticate', {
-            statusCode: 401,
-            body: {
-                message: message
-            }
-        })
+        // when
         loginPage.login(getRandomString(), getRandomString())
 
-        cy.get('.alert-danger').should('have.text', message)
+        // then
+        loginPage.verifyLoginFailedErrorMessage(message)
     })
 
     it('should show loading indicator', () => {
-        cy.intercept('POST', '**/users/authenticate', {
-            delay: 1000,
-        })
+        // given
+        mockDelay()
+        
+        // when
         loginPage.login(getRandomString(), getRandomString())
-        cy.get('.spinner-border').should('be.visible')
+
+        // then
+        loginPage.verifySpinner()
     })
 
 })
+
+const mockDelay = () => {
+    cy.intercept('POST', '**/users/authenticate', {
+        delay: 1000,
+    })
+}
+
+const mockFailedLogin = (message) => {
+    cy.intercept('POST', '**/users/authenticate', {
+        statusCode: 401,
+        body: {
+            message: message
+        }
+    })
+}
+

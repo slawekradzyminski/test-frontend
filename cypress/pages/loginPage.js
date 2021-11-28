@@ -2,6 +2,7 @@ const usernameField = '[name=username]'
 const passwordField = '[name=password]'
 const loginButton = 'button'
 const errorAlert = '.alert-danger'
+const spinner = '.spinner-border'
 
 export const loginPage = {
     login: (username, password) => {
@@ -10,7 +11,11 @@ export const loginPage = {
         cy.get(loginButton).click()
     },
 
-    verifyLoginFailedErrorMessage: () => {
-        cy.get(errorAlert).should('have.text', 'Login failed - bad username or password')
+    verifyLoginFailedErrorMessage: (message) => {
+        cy.get(errorAlert).should('have.text', message)
+    },
+
+    verifySpinner: () => {
+        cy.get(spinner).should('be.visible')
     }
 }

@@ -4,5 +4,7 @@ declare namespace Cypress {
         register(username: string, password: string, firstName: string, lastName: string): Promise<number>;
         deleteUser(id: number): void;
         checkUser(id: number): Promise<number>;
+        mockSuccessfulLogin(firstName: string): void;
+        verifyCorrectLoginRequestBody(username: string, password: string): void;
     }
 }
