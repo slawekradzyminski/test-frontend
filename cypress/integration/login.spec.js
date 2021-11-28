@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import { loginPage } from "../pages/loginPage"
 import { getRandomString } from "../util/random"
 
 describe('login page', () => {
@@ -21,10 +22,11 @@ describe('login page', () => {
     })
 
     it('should show error failed message', () => {
-        cy.get('[name=username]').type('wrong')
-        cy.get('[name=password]').type('wrong')
-        cy.get('button').click()
-        cy.get('.alert-danger').should('have.text', 'Login failed - bad username or password')
+        // when
+        loginPage.login('wrong', 'wrong')
+
+        // then
+        loginPage.verifyLoginFailedErrorMessage()
     })
 
     it('should open register page', () => {

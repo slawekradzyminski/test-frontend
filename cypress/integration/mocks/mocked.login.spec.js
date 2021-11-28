@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { homePage } from "../../pages/homePage"
+import { loginPage } from "../../pages/loginPage"
 import { getRandomString } from "../../util/random"
 
 describe('login page with mocks', () => {
@@ -8,6 +10,7 @@ describe('login page with mocks', () => {
     })
 
     it('should successfully login', () => {
+        // given
         const firstName = getRandomString()
 
         cy.intercept('POST', '**/users/authenticate', {
@@ -20,13 +23,14 @@ describe('login page with mocks', () => {
                 firstName: firstName
             }
         }).as('loginRequest')
-
         const username = getRandomString()
         const password = getRandomString()
-        cy.get('[name=username]').type(username)
-        cy.get('[name=password]').type(password)
-        cy.get('button').click()
-        cy.get('h1').should('have.text', `Hi ${firstName}!`)
+
+        // when
+        loginPage.login(username, password)
+
+        // then
+        homePage.verifyWelcomeMessage(firstName)
         cy.wait('@loginRequest').its('request.body')
             .should('deep.equal', {
                 username: username,
@@ -43,9 +47,7 @@ describe('login page with mocks', () => {
                 message: message
             }
         })
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('button').click()
+        loginPage.login(getRandomString(), getRandomString())
 
         cy.get('.alert-danger').should('have.text', message)
     })
@@ -54,9 +56,7 @@ describe('login page with mocks', () => {
         cy.intercept('POST', '**/users/authenticate', {
             delay: 1000,
         })
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('button').click()
+        loginPage.login(getRandomString(), getRandomString())
         cy.get('.spinner-border').should('be.visible')
     })
 
