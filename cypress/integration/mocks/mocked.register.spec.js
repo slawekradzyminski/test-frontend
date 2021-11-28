@@ -28,35 +28,42 @@ describe('register page with mocks', () => {
     })
 
     it('should fail to register if user already exists', () => {
+        // given 
         const message = 'User already exists'
-        cy.intercept('POST', '**/users/register', {
-            statusCode: 400,
-            body: {
-                message: message
-            }
-        })
+        mockUserAlreadyExists(message)
 
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password').type(getRandomString())
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('button').click()
-
-        cy.get('.alert-danger').should('have.text', message)
+        // when
+        registerPage.register(getRandomString(), getRandomString(), getRandomString(), getRandomString())
+        
+        // then
+        registerPage.verifyErrorMessageContains(message)
         cy.url().should('contain', '/register')
     })
 
     it('should show loading indicator', () => {
-        cy.intercept('POST', '**/users/register', {
-            delay: 1000,
-        })
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password').type(getRandomString())
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('button').click()
+        // given
+        mockResponseDelay()
 
-        cy.get('.spinner-border').should('be.visible')
+        // when
+        registerPage.register(getRandomString(), getRandomString(), getRandomString(), getRandomString())
+
+        // then
+        registerPage.verifySpinner()
     })
 
 })
+
+const mockResponseDelay = () => {
+    cy.intercept('POST', '**/users/register', {
+        delay: 1000,
+    })
+}
+
+const mockUserAlreadyExists = (message) => {
+    cy.intercept('POST', '**/users/register', {
+        statusCode: 400,
+        body: {
+            message: message
+        }
+    })
+}
