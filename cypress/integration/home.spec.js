@@ -13,6 +13,10 @@ describe('Home page', () => {
             .then(id => userId = id)
     })
 
+    after(() => {
+        cy.deleteUser(userId)
+    })
+
     beforeEach(() => {
         cy.login(username, password)
     })
