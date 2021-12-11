@@ -2,7 +2,7 @@
 
 describe('Login page', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:8080')
+      cy.visit('')
     })
   
     it('should successfully login', () => {
@@ -38,7 +38,7 @@ describe('Login page', () => {
         cy.get('h2').should('have.text', 'Register')
     })
 
-    it.only('should validate empty input', () => {
+    it('should validate empty input', () => {
         // when
         cy.get('.btn-primary').click()
 

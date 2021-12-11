@@ -4,7 +4,7 @@ import { getRandomString } from "../util/random"
 
 describe('Register page', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:8080/register')
+      cy.visit('/register')
     })
   
     it('should successfully register', () => {
