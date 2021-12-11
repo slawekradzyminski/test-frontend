@@ -12,7 +12,7 @@ describe('Edit page', () => {
 
     beforeEach(() => {
         cy.register(username, password, firstName, lastName)
-        .then(id => userId = id)
+            .then(id => userId = id)
         cy.login(username, password)
     })
 
@@ -45,6 +45,7 @@ describe('Edit page', () => {
         cy.get('[name=lastName]').should('have.value', lastName)
         cy.get('[name=username]').should('have.value', username)
         cy.get('[name=password]').should('have.value', password)
+        cy.get('[name=password]').should('have.attr', 'type', 'password')
     })
 
 })
