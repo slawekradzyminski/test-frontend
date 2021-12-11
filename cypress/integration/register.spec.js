@@ -21,9 +21,11 @@ describe('Register page', () => {
 
     it('should show user already exists error message', () => {
         // given
+        const username = getRandomString()
+        cy.register(username, getRandomString(), getRandomString(), getRandomString())
         cy.get('[name=firstName]').type(getRandomString())
         cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=username]').type('slawenty')
+        cy.get('[name=username]').type(username)
         cy.get('[name=password]').type(getRandomString())
         // when
         cy.get('.btn-primary').click()

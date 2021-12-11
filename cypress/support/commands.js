@@ -2,10 +2,7 @@ Cypress.Commands.add('login', (username, password) => {
     cy.request({
         method: 'POST',
         url: 'http://localhost:4000/users/authenticate',
-        body: {
-            username: username,
-            password: password
-        }
+        body: { username, password }
     }).then(resp => {
         cy.wrap(resp.status).should('eq', 200)
         expect(resp.status).to.eq(200)
@@ -18,13 +15,9 @@ Cypress.Commands.add('register', (username, password, firstName, lastName) => {
     cy.request({
         method: 'POST',
         url: 'http://localhost:4000/users/register',
-        body: {
-            username: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName
-        }
+        body: { username, password, firstName, lastName }
     }).then(resp => {
         expect(resp.status).to.eq(201)
+        return resp.body.id
     })
 })
