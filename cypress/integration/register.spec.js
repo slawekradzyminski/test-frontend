@@ -1,8 +1,6 @@
 /// <reference types="cypress" />
 
-const getRandomString = () => {
-    return Math.random().toString(36).substring(7)
-}
+import { getRandomString } from "../util/random"
 
 describe('Register page', () => {
     beforeEach(() => {
@@ -20,5 +18,17 @@ describe('Register page', () => {
       // then
       cy.get('.alert-success').should('have.text', 'Registration successful')
     })
+
+    it('should show user already exists error message', () => {
+        // given
+        cy.get('[name=firstName]').type(getRandomString())
+        cy.get('[name=lastName]').type(getRandomString())
+        cy.get('[name=username]').type('slawenty')
+        cy.get('[name=password]').type(getRandomString())
+        // when
+        cy.get('.btn-primary').click()
+        // then
+        cy.get('.alert-danger').should('have.text', 'User already exists')
+      })
   
   })

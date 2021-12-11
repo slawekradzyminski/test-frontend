@@ -37,6 +37,18 @@ describe('Login page', () => {
         cy.url().should('contain', 'register')
         cy.get('h2').should('have.text', 'Register')
     })
+
+    it.only('should validate empty input', () => {
+        // when
+        cy.get('.btn-primary').click()
+
+        // then
+        cy.get('.invalid-feedback').should('have.length', 2)
+        cy.get('.invalid-feedback').first().should('have.text', 'Username is required')
+        cy.get('.invalid-feedback').last().should('have.text', 'Password is required')
+        cy.get('[name=username]').should('have.class', 'is-invalid')
+        cy.get('[name=password]').should('have.class', 'is-invalid')
+    })
   
   })
   
