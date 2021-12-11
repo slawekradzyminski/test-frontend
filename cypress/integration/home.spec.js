@@ -21,6 +21,23 @@ describe('Home page', () => {
         cy.login(username, password)
     })
 
+    it('should delete other user', () => {
+        // given
+        let userIdToDelete
+        const firstName = getRandomString()
+        const lastName = getRandomString()
+        cy.register(getRandomString(), getRandomString(), firstName, lastName)
+            .then(id => userIdToDelete = id)
+            .then(() => {
+                cy.visit('')
+                // when
+                cy.get('ul li').contains(`${firstName} ${lastName}`).find('.delete').click()
+
+                // then
+                cy.assertUserNotExists(userIdToDelete)
+            })
+    })
+
     it('should show at least 1 user', () => {
         // then
         cy.get('ul li').should('have.length.at.least', 1)

@@ -30,3 +30,13 @@ Cypress.Commands.add('deleteUser', (id) => {
         expect(resp.status).to.eq(204)
     })
 })
+
+Cypress.Commands.add('assertUserNotExists', (id) => {
+    cy.request({
+        method: 'GET',
+        url: `http://localhost:4000/users/${id}`,
+        failOnStatusCode: false
+    }).then(resp => {
+        expect(resp.status).to.eq(404)
+    })
+})
