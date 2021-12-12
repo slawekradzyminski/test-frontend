@@ -28,7 +28,7 @@ Cypress.Commands.add('mockSuccessfulLogin', (firstName) => {
             token: "12345",
             username: getRandomString()
         }
-    })
+    }).as('loginRequest')
 })
 
 Cypress.Commands.add('mockSuccessfulRegister', () => {
@@ -42,4 +42,9 @@ Cypress.Commands.add('mockSuccessfulRegister', () => {
             pasword: getRandomString()
         }
     })
+})
+
+Cypress.Commands.add('setTokenInLocalStorage', () => {
+    const user = { token: '12345' }
+    window.localStorage.setItem('user', JSON.stringify(user))
 })

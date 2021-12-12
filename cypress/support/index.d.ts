@@ -11,5 +11,6 @@ declare namespace Cypress {
         mockFailedRegister(): void;
         mockSuccessfulLogin(firstName: string): void;
         mockSuccessfulRegister(): void;
+        setTokenInLocalStorage(): void
     }
 }
