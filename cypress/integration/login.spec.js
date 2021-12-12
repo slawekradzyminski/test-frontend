@@ -2,6 +2,7 @@
 
 import { homePage } from "../pages/homePage"
 import { loginPage } from "../pages/loginPage"
+import { registerPage } from "../pages/registerPage"
 import { getRandomString } from "../util/random"
 
 describe('Login page', () => {
@@ -35,11 +36,11 @@ describe('Login page', () => {
 
     it('should open register page', () => {
         // when
-        cy.get('a.btn-link').click()
+        loginPage.clickRegister()
 
         // then
         cy.url().should('contain', 'register')
-        cy.get('h2').should('have.text', 'Register')
+        registerPage.verifyHeaderDisplayed()
     })
 
     it('should validate empty input', () => {
@@ -48,7 +49,6 @@ describe('Login page', () => {
 
         // then
         loginPage.assertThatEmptyInputValidationWasDisplayed()
-        
     })
   
   })

@@ -3,6 +3,7 @@ const passwordField = '[name=password]'
 const loginButton = '.btn-primary'
 const alertError = '.alert-danger'
 const emptyInputMessage = '.invalid-feedback'
+const registerLink = 'a.btn-link'
 
 export const loginPage = {
     attemptLogin: (username, password) => {
@@ -25,6 +26,10 @@ export const loginPage = {
         cy.get(emptyInputMessage).eq(1).should('have.text', 'Password is required')
         cy.get(loginField).should('have.class', 'is-invalid')
         cy.get(passwordField).should('have.class', 'is-invalid')
+    },
+
+    clickRegister: () => {
+        cy.get(registerLink).click()
     }
 }
 
