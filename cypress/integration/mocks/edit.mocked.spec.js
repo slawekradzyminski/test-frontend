@@ -14,7 +14,10 @@ describe('Mocked edit', () => {
     })
 
     it('should display all users', () => {
+        // when
         cy.get('ul li').contains(`${testUser.firstName} ${testUser.lastName}`).find('.edit').click()
+
+        // then
         cy.get('[name=firstName]').should('have.value', testUser.firstName)
         cy.get('[name=lastName]').should('have.value', testUser.lastName)
         cy.get('[name=username]').should('have.value', testUser.username)
