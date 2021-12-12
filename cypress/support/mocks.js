@@ -41,7 +41,7 @@ Cypress.Commands.add('mockSuccessfulRegister', () => {
             username: getRandomString(),
             pasword: getRandomString()
         }
-    })
+    }).as('registerRequest')
 })
 
 Cypress.Commands.add('setTokenInLocalStorage', () => {
