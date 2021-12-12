@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { homePage } from "../pages/homePage"
+import { loginPage } from "../pages/loginPage"
 import { getRandomString } from "../util/random"
 
 describe('Login page', () => {
@@ -15,26 +17,20 @@ describe('Login page', () => {
     it('should successfully login', () => {
         // given
         cy.register(username, password, firstName, getRandomString())
-        cy.get('[name=username]').type(username)
-        cy.get('[name=password]').type(password)
 
         // when
-        cy.get('.btn-primary').click()
+        loginPage.attemptLogin(username, password)
 
         // then
-        cy.get('h1').should('contain.text', firstName)
+        homePage.verifyWelcomeMessageContains(firstName)
     })
 
     it('should show error message on failed login', () => {
-        // given
-        cy.get('[name=username]').type('wrong')
-        cy.get('[name=password]').type('wrong')
-
         // when
-        cy.get('.btn-primary').click()
+        loginPage.attemptLogin('wrong', 'wrong')
 
         // then
-        cy.get('.alert-danger').should('contain.text', 'Login failed')
+        loginPage.verifyErrorMessageWasDisplayed()
     })
 
     it('should open register page', () => {
@@ -48,14 +44,11 @@ describe('Login page', () => {
 
     it('should validate empty input', () => {
         // when
-        cy.get('.btn-primary').click()
+        loginPage.clickLogin()
 
         // then
-        cy.get('.invalid-feedback').should('have.length', 2)
-        cy.get('.invalid-feedback').eq(0).should('have.text', 'Username is required')
-        cy.get('.invalid-feedback').eq(1).should('have.text', 'Password is required')
-        cy.get('[name=username]').should('have.class', 'is-invalid')
-        cy.get('[name=password]').should('have.class', 'is-invalid')
+        loginPage.assertThatEmptyInputValidationWasDisplayed()
+        
     })
   
   })
