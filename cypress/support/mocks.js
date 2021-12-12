@@ -9,6 +9,15 @@ Cypress.Commands.add('mockFailedLogin', () => {
     })
 })
 
+Cypress.Commands.add('mockFailedRegister', () => {
+    cy.intercept('POST', '**/users/register', {
+        statusCode: 400,
+        body: {
+            message: 'User already exists'
+        }
+    })
+})
+
 Cypress.Commands.add('mockSuccessfulLogin', (firstName) => {
     cy.intercept('POST', '**/users/authenticate', {
         statusCode: 200,
@@ -18,6 +27,19 @@ Cypress.Commands.add('mockSuccessfulLogin', (firstName) => {
             lastName: getRandomString(),
             token: "12345",
             username: getRandomString()
+        }
+    })
+})
+
+Cypress.Commands.add('mockSuccessfulRegister', () => {
+    cy.intercept('POST', '**/users/register', {
+        statusCode: 201,
+        body: {
+            id: 99,
+            firstName: getRandomString(),
+            lastName: getRandomString(),
+            username: getRandomString(),
+            pasword: getRandomString()
         }
     })
 })

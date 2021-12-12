@@ -38,6 +38,18 @@ describe('Mocked login page', () => {
         cy.get('.alert-danger').should('have.text', errorMessage)
     })
 
+    it('should show spinner while waiting for response', () => {
+        // given
+        cy.intercept('POST', '**/users/authenticate', { delay: 3000 })
+        cy.get('[name=username]').type('wrong')
+        cy.get('[name=password]').type('wrong')
+
+        // when
+        cy.get('.btn-primary').click()
+
+        // then
+        cy.get('.btn-primary .spinner-border').should('be.visible')
+    })
   
   })
   

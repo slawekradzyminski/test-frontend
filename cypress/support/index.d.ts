@@ -8,6 +8,8 @@ declare namespace Cypress {
 
         // mocks.js
         mockFailedLogin(): void;
+        mockFailedRegister(): void;
         mockSuccessfulLogin(firstName: string): void;
+        mockSuccessfulRegister(): void;
     }
 }
