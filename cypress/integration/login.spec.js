@@ -21,5 +21,10 @@ describe('login page', () => {
         cy.get('.form-group button').click()
         cy.get('.alert').should('contain.text', 'Login failed - bad username or password')        
     })
+
+    it('register button should navigate to register page', () => {
+        cy.get('.btn-link').click()
+        cy.url().should('contain', 'register')
+    })
   
   })
