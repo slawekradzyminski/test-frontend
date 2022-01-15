@@ -2,9 +2,16 @@
 
 import { getRandomString } from "../util/random"
 
-describe('login page', () => {
+describe('login page',{
+    env: {
+      mobile: true,
+    },
+  }, () => {
     beforeEach(() => {
       cy.visit('')
+      if (Cypress.env('mobile')) {
+        cy.viewport('iphone-8')
+      }
     })
   
     it('should successfully login', () => {
