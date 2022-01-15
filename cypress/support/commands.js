@@ -37,6 +37,16 @@ Cypress.Commands.add('login', (username, password) => {
         }
     }).then(resp => {
         expect(resp.status).to.eq(201)
+        return resp.body.id
+    })
+ })
+
+ Cypress.Commands.add('deleteUser', (id) => { 
+    cy.request({
+        method: 'DELETE',
+        url: `http://localhost:4000/users/${id}`,
+    }).then(resp => {
+        expect(resp.status).to.eq(204)
     })
  })
 //
