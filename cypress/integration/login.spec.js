@@ -1,18 +1,27 @@
 /// <reference types="cypress" />
 
+import { getRandomString } from "../util/random"
+
 describe('login page', () => {
     beforeEach(() => {
       cy.visit('')
     })
   
     it('should successfully login', () => {
+        const username = getRandomString()
+        const password = getRandomString()
+        const firstName = getRandomString()
+        const lastName = getRandomString()
+
+        cy.register(username, password, firstName, lastName)
+
         cy.get('.form-group').within(() => {
-            cy.get('input').eq(0).type('slawenty')
-            cy.get('input').eq(1).type('password')
+            cy.get('input').eq(0).type(username)
+            cy.get('input').eq(1).type(password)
             cy.get('button').click()
         })
 
-        cy.get('h1').should('contain.text', 'Hi Slawomir')
+        cy.get('h1').should('contain.text', `Hi ${firstName}`)
     })
 
     it('should show error message on failed login', () => {
