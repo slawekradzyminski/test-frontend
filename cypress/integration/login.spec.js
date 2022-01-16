@@ -31,23 +31,18 @@ describe('login page',{
     })
 
     it('should show error message on failed login', () => {
-        cy.get('.form-group input').eq(0).type('slawenty')
-        cy.get('.form-group input').eq(1).type('passwo')
-        cy.get('.form-group button').click()
-        cy.get('.alert').should('contain.text', 'Login failed - bad username or password')        
+        loginPage.login('wrong', 'wrong')
+        loginPage.verifyErrorMessage()
     })
 
     it('register button should navigate to register page', () => {
-        cy.get('.btn-link').click()
+        loginPage.clickRegister()
         cy.url().should('contain', 'register')
     })
 
     it('frontend validation should work', () => {
-        cy.get('.form-group button').click()
-        cy.get('.invalid-feedback').eq(0).should('have.text', 'Username is required')
-        cy.get('.invalid-feedback').eq(1).should('have.text', 'Password is required')
-        cy.get('.form-group input').eq(0).should('have.class', 'is-invalid')
-        cy.get('.form-group input').eq(1).should('have.class', 'is-invalid')
+        loginPage.clickLogin()
+        loginPage.verifyFrontendValidation()
     })
   
   })

@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
+import LoginPage from "../pages/loginPage"
+import RegisterPage from "../pages/registerPage"
 import { getRandomString } from "../util/random"
+
+const registerPage = new RegisterPage()
+const loginPage = new LoginPage()
 
 describe('register page', () => {
     beforeEach(() => {
@@ -8,13 +13,8 @@ describe('register page', () => {
     })
   
     it('should successfully register', () => {
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('button').click()
-
-        cy.get('.alert').should('contain.text', 'Registration successful')
+        registerPage.register(getRandomString(), getRandomString(), getRandomString(), getRandomString())
+        loginPage.verifyRegisterSuccessfulAlert()
     })
 
     it('should fail to register if username already exists', () => {
