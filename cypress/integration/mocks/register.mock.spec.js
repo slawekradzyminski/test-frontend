@@ -57,5 +57,43 @@ describe('register page with mocks', () => {
         cy.get('.alert-danger').should('contain.text', errorMessage)
     })
 
+    it('should handle 500 from backend', () => {
+        cy.intercept('POST', '**/register', {
+            statusCode: 500
+        })
+
+        cy.get('[name=firstName]').type(getRandomString())
+        cy.get('[name=lastName]').type(getRandomString())
+        cy.get('[name=username]').type(getRandomString())
+        cy.get('[name=password]').type(getRandomString())
+        cy.get('button').click()
+    })
+
+    it.only('should handle network error', () => {
+        cy.intercept('POST', '**/register', {
+            forceNetworkError: true
+        })
+
+        cy.get('[name=firstName]').type(getRandomString())
+        cy.get('[name=lastName]').type(getRandomString())
+        cy.get('[name=username]').type(getRandomString())
+        cy.get('[name=password]').type(getRandomString())
+        cy.get('button').click()
+    })
+
+    it('should show loading state', () => {
+        cy.intercept('POST', '**/register', {
+            delay: 2000
+        })
+
+        cy.get('[name=firstName]').type(getRandomString())
+        cy.get('[name=lastName]').type(getRandomString())
+        cy.get('[name=username]').type(getRandomString())
+        cy.get('[name=password]').type(getRandomString())
+        cy.get('button').click()
+
+        cy.get('.spinner-border').should('be.visible')
+    })
+
 
 })
