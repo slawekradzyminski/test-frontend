@@ -5,7 +5,7 @@ npm-debug.log*
 .DS_Store
 
 cypress.env.json
-
+allure-results
 
 .idea
 

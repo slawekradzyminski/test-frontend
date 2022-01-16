@@ -12,5 +12,12 @@
         "lastName": "Nowak",
         "username": "gosianowak123",
         "password": "password"
+    },
+    {
+        "id": 3,
+        "firstName": "Donald",
+        "lastName": "Kaczynski",
+        "username": "polityk",
+        "password": "password"
     }
 ]
