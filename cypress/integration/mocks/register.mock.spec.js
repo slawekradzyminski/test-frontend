@@ -55,7 +55,6 @@ describe('register page with mocks', () => {
         cy.get('[name=password]').type(getRandomString())
         cy.get('button').click()
         cy.get('.alert-danger').should('contain.text', errorMessage)
-
     })
 
 
