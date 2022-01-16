@@ -2,7 +2,7 @@
 
 import { getRandomString } from "../../util/random"
 
-describe('login page', {
+describe('login page with mocks', {
     env: {
         mobile: true,
     },
@@ -16,7 +16,7 @@ describe('login page', {
         cy.intercept('GET', '**/users', { fixture: 'users.json' }).as('getUsers')
     })
 
-    it.only('should successfully login', () => {
+    it('should successfully login', () => {
         const firstName = getRandomString()
         const username = getRandomString()
         const password = getRandomString()
@@ -48,6 +48,19 @@ describe('login page', {
     })
 
     it('should show error message on failed login', () => {
+        const errorMessage = 'Login failed - bad username or password'
+
+        cy.intercept('POST', '**/authenticate', {
+            statusCode: 401,
+            body: {
+                message: errorMessage
+            }
+        })
+
+        cy.get('.form-group input').eq(0).type(getRandomString())
+        cy.get('.form-group input').eq(1).type(getRandomString())
+        cy.get('.form-group button').click()
+        cy.get('.alert').should('contain.text', errorMessage)  
     })
 
 
