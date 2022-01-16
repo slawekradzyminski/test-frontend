@@ -69,7 +69,7 @@ describe('register page with mocks', () => {
         cy.get('button').click()
     })
 
-    it.only('should handle network error', () => {
+    it('should handle network error', () => {
         cy.intercept('POST', '**/register', {
             forceNetworkError: true
         })

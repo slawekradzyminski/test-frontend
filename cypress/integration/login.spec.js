@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
+import HomePage from "../pages/homePage"
+import LoginPage from "../pages/loginPage"
 import { getRandomString } from "../util/random"
+
+const loginPage = new LoginPage()
+const homePage = new HomePage()
 
 describe('login page',{
     env: {
@@ -21,14 +26,8 @@ describe('login page',{
         const lastName = getRandomString()
 
         cy.register(username, password, firstName, lastName)
-
-        cy.get('.form-group').within(() => {
-            cy.get('input').eq(0).type(username)
-            cy.get('input').eq(1).type(password)
-            cy.get('button').click()
-        })
-
-        cy.get('h1').should('contain.text', `Hi ${firstName}`)
+        loginPage.login(username, password)
+        homePage.verifyHeader(firstName)
     })
 
     it('should show error message on failed login', () => {
