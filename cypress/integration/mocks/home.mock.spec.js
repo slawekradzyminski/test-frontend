@@ -25,7 +25,7 @@ describe('home page with mocks', () => {
     })
 
     it('should show Deleting... during delete', () => {
-        cy.intercept('DELETE', `**/users/${users[0].id}`, { delay: 10000 })
+        cy.intercept('DELETE', `**/users/${users[0].id}`, { delay: 2000 })
         cy.get('ul li').contains(`${users[0].firstName} ${users[0].lastName}`).find('.delete').click()
 
         cy.get('ul li').contains(`${users[0].firstName} ${users[0].lastName}`).should('contain.text', 'Deleting')
