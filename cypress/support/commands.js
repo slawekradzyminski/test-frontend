@@ -25,6 +25,7 @@ Cypress.Commands.add('login', (username, password) => {
         }
     }).then(resp => {
         expect(resp.status).to.eq(201)
+        return resp.body.id
     })
  })
 
