@@ -22,4 +22,9 @@ describe('Login page', () => {
             .should('have.text', 'Login failed - bad username or password')
             .should('have.class', 'alert-danger')
     })
+
+    it('should open register page', () => {
+        cy.get('.btn-link').click()
+        cy.url().should('contain', 'register')
+    })
 })
