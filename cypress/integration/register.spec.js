@@ -6,6 +6,7 @@ describe('Register page', () => {
     let id
 
     beforeEach(() => {
+        id = undefined
         cy.visit('/register')
     })
 
