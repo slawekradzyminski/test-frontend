@@ -6,13 +6,18 @@ describe('Home page', () => {
     const username = getRandomString()
     const password = getRandomString()
     const firstName = getRandomString()
+    let id
 
     before(() => {
         cy.register(username, password, firstName, getRandomString())
     })
 
+    after(() => {
+        cy.deleteUser(id)
+    })
+
     beforeEach(() => {
-        cy.login(username, password)
+        cy.login(username, password).then(returnedId => id = returnedId)
         cy.visit('')
     })
 
@@ -36,7 +41,7 @@ describe('Home page', () => {
 
 
     it('should edit an user', () => {
-        cy.get('ul li').contains('Slawomir').find('.edit').click()
+        cy.get('ul li').contains(firstName).find('.edit').click()
         cy.get('h2').should('have.text', 'Edit user')
     })
 
