@@ -1,8 +1,18 @@
 /// <reference types="cypress" />
 
+import { getRandomString } from "../util/random"
+
 describe('Home page', () => {
+    const username = getRandomString()
+    const password = getRandomString()
+    const firstName = getRandomString()
+
+    before(() => {
+        cy.register(username, password, firstName, getRandomString())
+    })
+
     beforeEach(() => {
-        cy.login(Cypress.env('username'), Cypress.env('password'))
+        cy.login(username, password)
         cy.visit('')
     })
 
@@ -30,9 +40,9 @@ describe('Home page', () => {
         cy.get('h2').should('have.text', 'Edit user')
     })
 
-    it('should delete all users except Slawomir', () => {
+    it('should delete all users except current user', () => {
         cy.get('ul li').each($el => {
-            if (!$el.text().includes('Slawomir')) {
+            if (!$el.text().includes(firstName)) {
                 cy.wrap($el).find('.delete').click()
             }
         })

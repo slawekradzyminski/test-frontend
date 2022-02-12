@@ -12,3 +12,18 @@ Cypress.Commands.add('login', (username, password) => {
       })
  })
 
+ Cypress.Commands.add('register', (username, password, firstName, lastName) => { 
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost:4000/users/register',
+        body: {
+            firstName: firstName,
+            username: username,
+            password: password,
+            lastName: lastName
+        }
+    }).then(resp => {
+        expect(resp.status).to.eq(201)
+    })
+ })
+
