@@ -5,7 +5,7 @@ describe('Login page', () => {
         cy.visit('')
     })
 
-    it('should successfully login', () => {
+    it('should successfully login', () =>  {
         cy.get('.form-control').eq(0).type(Cypress.env('username'))
         cy.get('.form-control').eq(1).type(Cypress.env('password'))
         cy.get('.btn-primary').click()
