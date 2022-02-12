@@ -15,7 +15,7 @@ describe('Register page', () => {
         }
     })
 
-    it.only('should successfully register', () => {
+    it('should successfully register', () => {
         const username = getRandomString()
         cy.get('[name=username]').type(username)
         cy.get('[name=firstName]').type(getRandomString())
