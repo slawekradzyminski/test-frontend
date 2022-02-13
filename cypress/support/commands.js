@@ -38,3 +38,9 @@ Cypress.Commands.add('login', (username, password) => {
       })
  })
 
+ Cypress.Commands.add('verifyUserExistsViaApi', (username, password, firstName, lastName, id) => { 
+    cy.request(`http://localhost:4000/users/${id}`).then(resp => {
+            expect(resp.body).to.deep.eq({ username, password, firstName, lastName, id })
+        })
+ })
+

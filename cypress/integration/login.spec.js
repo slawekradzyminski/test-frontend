@@ -16,24 +16,19 @@ describe('Login page', () => {
         const username = getRandomString()
         const password = getRandomString()
         const firstName = getRandomString()
-
         cy.register(username, password, firstName, getRandomString())
+
         loginPage.attemptLogin(username, password)
         homePage.verifyWelcomeMessage(firstName)
     })
 
     it('should fail to login', () => {
-        cy.get('.form-control').eq(0).type('wrong')
-        cy.get('.form-control').eq(1).type('wrong')
-        cy.get('.btn-primary').click()
-
-        cy.get('.alert')
-            .should('have.text', 'Login failed - bad username or password')
-            .should('have.class', 'alert-danger')
+        loginPage.attemptLogin('wrong', 'wrong')
+        loginPage.verifyLoginError();
     })
 
     it('should open register page', () => {
-        cy.get('.btn-link').click()
+        loginPage.clickRegister()
         cy.url().should('contain', 'register')
     })
 })

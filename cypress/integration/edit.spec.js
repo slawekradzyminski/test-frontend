@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
+import EditPage from "../pages/EditPage"
+import HomePage from "../pages/HomePage"
 import { getRandomString } from "../util/random"
+
+const homePage = new HomePage()
+const editPage = new EditPage()
 
 describe('Edit page', () => {
     const username = getRandomString()
@@ -24,28 +29,14 @@ describe('Edit page', () => {
     beforeEach(() => {
         cy.login(username, password).then(returnedId => id = returnedId)
         cy.visit('')
-        cy.get('ul li').contains(`${firstName} ${lastName}`).find('.edit').click()
+        homePage.editUser(firstName, lastName)
     })
 
     it('should edit an user', () => {
-        cy.get('[name=username]').clear().type(newUsername)
-        cy.get('[name=firstName]').clear().type(newFirstName)
-        cy.get('[name=lastName]').clear().type(newLastName)
-        cy.get('[name=password]').clear().type(newPassword)
-        cy.get('.btn-primary').click()
-
-        cy.get('ul li').contains(`${firstName} ${lastName}`).should('not.exist')
-        cy.get('ul li').contains(`${newFirstName} ${newLastName}`).should('be.visible')
-
-        cy.request(`http://localhost:4000/users/${id}`).then(resp => {
-            expect(resp.body).to.deep.eq({
-                username: newUsername,
-                password: newPassword,
-                firstName: newFirstName,
-                lastName: newLastName,
-                id: id
-            })
-        })
+        editPage.attemptToEdit(newUsername, newFirstName, newLastName, newPassword)
+        homePage.verifyUserDisplayed(newFirstName, newLastName)
+        homePage.verifyUserDoesNotDisplayed(firstName, lastName)
+        cy.verifyUserExistsViaApi(newUsername, newPassword, newFirstName, newLastName, id)
     })
 
 })
