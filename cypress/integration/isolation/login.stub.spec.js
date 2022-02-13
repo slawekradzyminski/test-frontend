@@ -9,6 +9,8 @@ describe('Login page in isolation', () => {
 
     it('should successfully login', () => {
         const firstName = getRandomString()
+        const username = getRandomString()
+        const password = getRandomString()
 
         cy.intercept('POST', '**/users/authenticate', {
             statusCode: 200,
@@ -19,13 +21,18 @@ describe('Login page in isolation', () => {
                 token: "123456",
                 username: getRandomString()
             }
-        })
+        }).as('loginRequest')
 
-        cy.get('.form-control').eq(0).type(getRandomString())
-        cy.get('.form-control').eq(1).type(getRandomString())
+        cy.get('.form-control').eq(0).type(username)
+        cy.get('.form-control').eq(1).type(password)
         cy.get('.btn-primary').click()
 
         cy.get('h1').should('contain.text', `Hi ${firstName}`)
+
+        cy.wait('@loginRequest').its('request.body')
+            .should('deep.equal', {
+                password, username
+            })
     })
 
     it('should fail to login', () => {
