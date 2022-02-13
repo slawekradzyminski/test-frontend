@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
+import LoginPage from "../pages/LoginPage"
+import RegisterPage from "../pages/RegisterPage"
 import { getRandomString } from "../util/random"
+
+const registerPage = new RegisterPage()
+const loginPage = new LoginPage()
 
 describe('Register page', () => {
     let id
@@ -18,19 +23,8 @@ describe('Register page', () => {
 
     it('should successfully register', () => {
         const username = getRandomString()
-        cy.get('[name=username]').type(username)
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.alert')
-            .should('have.text', 'Registration successful')
-            .should('not.have.class', 'alert-danger')
-
-        cy.request('http://localhost:4000/users').then(resp => {
-            id = resp.body.find(entry => entry.username === username).id;
-        })
+        registerPage.attemptRegister(username, getRandomString(), getRandomString(), getRandomString())
+        loginPage.verifyRegistrationSucceeded(username).then(id => id = id)
     })
 
     it('should fail to register', () => {
@@ -38,64 +32,33 @@ describe('Register page', () => {
         cy.register(username, getRandomString(), getRandomString(), getRandomString())
             .then(returnedId => id = returnedId)
 
-        cy.get('[name=username]').type(username)
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.alert')
-            .should('have.text', 'User already exists')
-            .should('have.class', 'alert-danger')
+        registerPage.attemptRegister(username, getRandomString(), getRandomString(), getRandomString())
+        registerPage.verifyRegistrationFailed()
     })
 
     it('should redirect back to login page', () => {
-        cy.get('.btn-link').click()
+        registerPage.clickCancelLink()
         cy.url().should('contain', 'login')
     })
 
     it('should not be able to register without username', () => {
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.invalid-feedback')
-            .should('have.text', 'Username is required')
-        cy.get('[name=username]').should('have.class', 'is-invalid')
+        registerPage.attemptRegister('', getRandomString(), getRandomString(), getRandomString())
+        registerPage.verifyFrontendValidation('Username is required', registerPage.usernameField)
     })
 
     it('should not be able to register without first name', () => {
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.invalid-feedback')
-            .should('have.text', 'First Name is required')
-        cy.get('[name=firstName]').should('have.class', 'is-invalid')
+        registerPage.attemptRegister(getRandomString(), getRandomString(), '', getRandomString())
+        registerPage.verifyFrontendValidation('First Name is required', registerPage.firstNameField)
     })
 
     it('should not be able to register without last name', () => {
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.invalid-feedback')
-            .should('have.text', 'Last Name is required')
-        cy.get('[name=lastName]').should('have.class', 'is-invalid')
+        registerPage.attemptRegister(getRandomString(), getRandomString(), getRandomString(), '')
+        registerPage.verifyFrontendValidation('Last Name is required', registerPage.lastNameField)
     })
 
     it('should not be able to register without password', () => {
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=firstName]').type(getRandomString())
-        cy.get('[name=lastName]').type(getRandomString())
-        cy.get('.btn-primary').click()
-
-        cy.get('.invalid-feedback')
-            .should('have.text', 'Password is required')
-        cy.get('[name=password]').should('have.class', 'is-invalid')
+        registerPage.attemptRegister(getRandomString(), '', getRandomString(), getRandomString())
+        registerPage.verifyFrontendValidation('Password is required', registerPage.passwordField)
     })
 
 })
