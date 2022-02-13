@@ -1,6 +1,11 @@
 /// <reference types="cypress" />
 
+import HomePage from "../pages/HomePage"
+import LoginPage from "../pages/LoginPage"
 import { getRandomString } from "../util/random"
+
+const loginPage = new LoginPage()
+const homePage = new HomePage()
 
 describe('Login page', () => {
     beforeEach(() => {
@@ -13,12 +18,8 @@ describe('Login page', () => {
         const firstName = getRandomString()
 
         cy.register(username, password, firstName, getRandomString())
-
-        cy.get('.form-control').eq(0).type(username)
-        cy.get('.form-control').eq(1).type(password)
-        cy.get('.btn-primary').click()
-
-        cy.get('h1').should('contain.text', `Hi ${firstName}`)
+        loginPage.attemptLogin(username, password)
+        homePage.verifyWelcomeMessage(firstName)
     })
 
     it('should fail to login', () => {
