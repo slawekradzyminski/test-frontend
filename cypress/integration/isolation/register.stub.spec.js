@@ -56,4 +56,17 @@ describe('Register page in isolation', () => {
             .should('have.class', 'alert-danger')
     })
 
+    it('shoould be visible loader when wait for response', ()=> {
+        cy.intercept('POST', '**/users/register', {
+            delay:3000
+        })
+
+        cy.get('[name=username]').type(getRandomString())
+        cy.get('[name=firstName]').type(getRandomString())
+        cy.get('[name=lastName]').type(getRandomString())
+        cy.get('[name=password]').type(getRandomString())
+        cy.get('.btn-primary').click()
+        cy.get('.btn-primary .spinner-border').should('be.visible')
+    })
+
 })
