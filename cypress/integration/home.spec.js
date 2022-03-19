@@ -16,9 +16,19 @@ describe('home page', () => {
         cy.get('h2').should('have.text', 'Login')
     })
 
-    it("add more users", () => {
-        cy.get("#addmore").click();
-        cy.url().should("contain", "add-user");
+    it('add more users', () => {
+        cy.get('#addmore').click();
+        cy.url().should("contain", 'add-user');
+    });
+
+    it('add should delete all users except Slawomir Radzyminski', () => {
+       cy.get('ul li').each($element => {
+           if (!$element.text().includes('Slawomir Radzyminski')) {
+               cy.wrap($element).find('.delete').click()
+           }
+       })
+
+       cy.get('ul li').should('have.length', 1)
     });
 
 })
