@@ -11,5 +11,19 @@ Cypress.Commands.add('login', (username, password) => {
         expect(response.status).to.eq(200)
         localStorage.setItem('user', JSON.stringify(response.body))
       })
+ })
 
+ Cypress.Commands.add('register', (username, password, firstName, lastName) => { 
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost:4000/users/register',
+        body: {
+            firstName: firstName,
+            lastName: lastName,
+            password: password,
+            username: username
+        }
+    }).then(resp => {
+        expect(resp.status).to.eq(201)
+    })
  })

@@ -11,19 +11,9 @@ describe('login page', () => {
         const firstName = getRandomString()
         const username = getRandomString()
         const password = getRandomString()
+        const lastName = getRandomString()
 
-        cy.request({
-            method: 'POST',
-            url: 'http://localhost:4000/users/register',
-            body: {
-                firstName: firstName,
-                lastName: getRandomString(),
-                password: password,
-                username: username
-            }
-        }).then(resp => {
-            expect(resp.status).to.eq(201)
-        })
+        cy.register(username, password, firstName, lastName)
 
         cy.get("input[name='username']").type(username)
         cy.get("input[name='password']").type(password)
