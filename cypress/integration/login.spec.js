@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('example to-do app', () => {
+describe('login page', () => {
     beforeEach(() => {
         cy.visit('http://localhost:8080')
     })
