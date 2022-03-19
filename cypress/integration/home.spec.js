@@ -48,6 +48,14 @@ describe('home page', () => {
         cy.url().should("contain", 'add-user');
     });
 
-    
+    it('should not delete user if confirmation cancelled', () => {
+        cy.on('window:confirm', (confirmationText) => {
+            expect(confirmationText).to.eq('Are you sure you wish to delete this item?')
+            return false
+        })
+
+        cy.get('ul li').contains(`${firstName} ${lastName}`).find('.delete').click()
+        cy.get('ul li').contains(`${firstName} ${lastName}`).should('be.visible')
+    });
 
 })
