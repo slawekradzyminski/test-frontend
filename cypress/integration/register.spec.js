@@ -8,15 +8,18 @@ describe('register page', () => {
     })
 
     it('should successfully register', () => {
+        const username = getRandomString()
+        const password = getRandomString()
+
         cy.get('[name=firstName]').type(getRandomString())
         cy.get('[name=lastName]').type(getRandomString())
-        cy.get('[name=username]').type(getRandomString())
-        cy.get('[name=password]').type(getRandomString())
+        cy.get('[name=username]').type(username)
+        cy.get('[name=password]').type(password)
         cy.get('.btn-primary').click()
         cy.get('.alert-success')
             .should('have.text', 'Registration successful')
 
-        // TODO: asercja przez api
+        cy.login(username, password)
     })
 
     it('should fail to register', () => {

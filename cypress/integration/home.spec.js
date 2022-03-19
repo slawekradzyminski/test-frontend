@@ -2,8 +2,8 @@
 
 describe('home page', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:8080')
         cy.login('slawenty', 'password')
+        cy.visit('http://localhost:8080')
     })
 
     it('should display at least one user', () => {
