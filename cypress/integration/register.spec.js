@@ -13,9 +13,10 @@ describe('register page', () => {
         cy.get('[name=username]').type(getRandomString())
         cy.get('[name=password]').type(getRandomString())
         cy.get('.btn-primary').click()
-
         cy.get('.alert-success')
             .should('have.text', 'Registration successful')
+
+        // TODO: asercja przez api
     })
 
     it('should fail to register', () => {
@@ -27,7 +28,6 @@ describe('register page', () => {
 
         cy.get('.alert-danger')
             .should('have.text', 'User already exists')
-
     })
 
     it('should come back to login page', () => {

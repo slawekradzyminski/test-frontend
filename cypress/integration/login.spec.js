@@ -6,10 +6,6 @@ describe('login page', () => {
     })
 
     it('should successfully login', () => {
-        cy.get("input[name='username']").type('slawenty')
-        cy.get("input[name='password']").type('password')
-        cy.get('.btn-primary').click()
-
         cy.get('h1').should('contain.text', 'Slawomir')
     })
 
