@@ -14,9 +14,9 @@ describe('home page', () => {
         cy.register(username, password, firstName, lastName).then(returnedId => userId = returnedId)
     })
 
-    // after(() => {
-    //     cy.deleteUser(userId)
-    // })
+    after(() => {
+        cy.deleteUser(userId)
+    })
 
     beforeEach(() => {
         cy.login(username, password)

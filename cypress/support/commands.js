@@ -28,3 +28,12 @@ Cypress.Commands.add('login', (username, password) => {
         return resp.body.id
     })
  })
+
+ Cypress.Commands.add('deleteUser', (userId) => { 
+    cy.request({
+        method: 'DELETE',
+        url: `http://localhost:4000/users/${userId}`,
+    }).then(resp => {
+        expect(resp.status).to.eq(204)
+    })
+ })
