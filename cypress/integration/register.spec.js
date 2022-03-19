@@ -30,7 +30,7 @@ describe('register page', () => {
 
     })
 
-    it.only('should come back to login page', () => {
+    it('should come back to login page', () => {
         cy.get('a').contains('Cancel').click()
         cy.url().should('contain', 'login')
         cy.get('h2').should('have.text', 'Login')
