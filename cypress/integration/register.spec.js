@@ -42,7 +42,7 @@ describe('register page', () => {
         cy.get('h2').should('have.text', 'Login')
     })
 
-    it.only('should trigger frontend validation', () => {
+    it('should trigger frontend validation', () => {
         cy.get('.btn-primary').click()
         cy.get('.invalid-feedback').should('have.length', 4)
         cy.get('.invalid-feedback').eq(0).should('have.text', 'First Name is required')
