@@ -4,6 +4,10 @@ export default class LoginPage {
     #usernameInput = "input[name='username']"
     #passwordInput = "input[name='password']"
 
+    verifyHeader(text) {
+        cy.get('h2').should('have.text', text)
+    }
+
     attemptLogin(username, password) {
         cy.get(this.#usernameInput).type(username)
         cy.get(this.#passwordInput).type(password)

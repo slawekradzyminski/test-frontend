@@ -1,10 +1,15 @@
 /// <reference types="cypress" />
 
+import LoginPage from "../pages/LoginPage"
+import RegisterPage from "../pages/RegisterPage"
 import { getRandomString } from "../util/random"
+
+const registerPage = new RegisterPage()
+const loginPage = new LoginPage()
 
 describe('register page', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:8080/register')
+        cy.visit('/register')
     })
 
     it('should successfully register', () => {
@@ -37,9 +42,12 @@ describe('register page', () => {
     })
 
     it('should come back to login page', () => {
-        cy.get('a').contains('Cancel').click()
+        // when
+        registerPage.clickCancel()
+
+        // then
+        loginPage.verifyHeader('Login')
         cy.url().should('contain', 'login')
-        cy.get('h2').should('have.text', 'Login')
     })
 
     it('should trigger frontend validation', () => {

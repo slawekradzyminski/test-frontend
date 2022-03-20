@@ -11,7 +11,7 @@ const registerPage = new RegisterPage()
 
 describe('login page', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:8080')
+        cy.visit('')
     })
 
     it('should successfully login', () => {
@@ -42,7 +42,7 @@ describe('login page', () => {
         loginPage.clickRegister()
 
         // then
-        registerPage.verifyHeader()
+        registerPage.verifyHeader('Register')
         cy.url().should('contain', 'register')
     })
 
