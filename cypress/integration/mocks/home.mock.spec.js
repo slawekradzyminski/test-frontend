@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { getRandomString } from "../../util/random"
-
 describe('home page', () => {
 
     const users = require('../../fixtures/users.json')
