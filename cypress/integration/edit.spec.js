@@ -22,22 +22,27 @@ describe('edit page', () => {
     })
 
     it('should successfully edit an user', () => {
+        // given
         const newUsername = getRandomString()
         const newPassword = getRandomString()
         const newFirstName = getRandomString()
         const newLastName = getRandomString()
+
+        // when
         cy.get('[name=firstName]').clear().type(newFirstName)
         cy.get('[name=lastName]').clear().type(newLastName)
         cy.get('[name=username]').clear().type(newUsername)
         cy.get('[name=password]').clear().type(newPassword)
         cy.get('.btn-primary').click()
 
+        // then
         cy.get('ul li').contains(`${firstName} ${lastName}`).should('not.exist')
         cy.get('ul li').contains(`${newFirstName} ${newLastName}`).should('be.visible')
         cy.login(newUsername, newPassword)
     });
 
     it('should verify that user data was correctly autofilled', () => {
+        // then
         cy.get('[name=firstName]').should('contain.value', firstName)
         cy.get('[name=lastName]').should('contain.value', lastName)
         cy.get('[name=username]').should('contain.value', username)

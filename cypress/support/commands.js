@@ -37,3 +37,8 @@ Cypress.Commands.add('login', (username, password) => {
         expect(resp.status).to.eq(204)
     })
  })
+
+ Cypress.Commands.add('setTokenInLocalStorage', () => { 
+    const user = { token: '12345' }
+    localStorage.setItem('user', JSON.stringify(user))
+ })
